@@ -1,0 +1,53 @@
+# Importing required libraries
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+
+# Load Titanic dataset
+url = 'https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv'
+titanic_df = pd.read_csv(url)
+print(titanic_df.head())
+print("\nDataset Info:")
+print(titanic_df.info())
+print("\nMissing Values:")
+print(titanic_df.isnull().sum())
+print("\nNumerical Columns Summary:")
+print(titanic_df.describe())
+print("\nCategorical Columns Summary:")
+print(titanic_df.describe(include=['O']))
+
+titanic_df = titanic_df.dropna(subset=['Age', 'Embarked', 'Fare'])
+plt.figure(figsize=(8,6))
+sns.histplot(titanic_df['Age'], bins=30, kde=True)
+plt.title('Age Distribution')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.show()
+
+# Boxplot for Fare distribution
+plt.figure(figsize=(8,6))
+sns.boxplot(x=titanic_df['Fare'])
+plt.title('Fare Distribution')
+plt.xlabel('Fare')
+plt.show()
+corr_matrix = titanic_df.corr()
+
+plt.figure(figsize=(10,6))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title('Correlation Heatmap')
+plt.show()
+plt.figure(figsize=(8,6))
+sns.scatterplot(x='Age', y='Fare', data=titanic_df)
+plt.title('Age vs Fare')
+plt.xlabel('Age')
+plt.ylabel('Fare')
+plt.show()
+plt.figure(figsize=(8,6))
+sns.boxplot(x='Pclass', y='Age', hue='Survived', data=titanic_df)
+plt.title('Survival by Age and Pclass')
+plt.show()
+plt.figure(figsize=(8,6))
+sns.countplot(x='Survived', data=titanic_df)
+plt.title('Survival Count')
+plt.show()
